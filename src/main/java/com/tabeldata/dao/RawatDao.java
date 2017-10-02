@@ -163,17 +163,12 @@ public class RawatDao {
             ps.setTimestamp(5, waktuCheckout);
             ps.setInt(6, id);
             ps.executeUpdate();
-            
+
             sql = "update latihan_1.ruang set kosong = FALSE WHERE id = ?";
             ps = koneksiDB.prepareStatement(sql);
             ps.setInt(1, ruangId);
             ps.executeUpdate();
-            
-            sql = "update latihan_1.ruang set kosong = true WHERE kosong = false";
-            ps = koneksiDB.prepareStatement(sql);
-            ps.setInt(1, ruangId);
-            ps.executeUpdate();
-            
+
             ps.close();
             koneksiDB.close();
 

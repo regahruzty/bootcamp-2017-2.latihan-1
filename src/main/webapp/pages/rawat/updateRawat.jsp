@@ -35,6 +35,7 @@
                 </select>
             </div>
             <label for="rawatRuang">Pilih Ruang</label>
+            <input type="hidden" name="ruangIdLama" value="${r.id}"/>
             <select name="rawatRuang" id="rawatRuang">
                 <c:forEach items="${listRuang}" var="r">
                     <option value="${r.id}">${r.no_ruangan}</option>
