@@ -57,7 +57,7 @@ public class RawatUpdateController extends HttpServlet {
 //        super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
 
         Rawat rawatBaru = new Rawat();
-        String rawatId = req.getParameter("kode");
+        String rawatId = req.getParameter("id");
         rawatBaru.setId(Integer.valueOf(rawatId));
 
         String rawatPasien = req.getParameter("rawatPasien");
