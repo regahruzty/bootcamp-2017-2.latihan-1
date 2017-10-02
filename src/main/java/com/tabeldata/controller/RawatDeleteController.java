@@ -5,6 +5,7 @@
  */
 package com.tabeldata.controller;
 
+import com.tabeldata.Rawat;
 import com.tabeldata.dao.RawatDao;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -23,12 +24,16 @@ public class RawatDeleteController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
-        Integer rawatId = Integer.valueOf((req.getParameter("rawatId")));
+
+        Rawat rwt = new Rawat();
+        rwt.setId(Integer.valueOf(req.getParameter("rawatId")));
+
+        rwt = new RawatDao().cariRawatDenganId(rwt.getId());
+
         RawatDao rawatDao = new RawatDao();
-        rawatDao.hapusRawatById(rawatId);
+        rawatDao.hapusRawatById(rwt);
         resp.sendRedirect(req.getServletContext().getContextPath() + "/rawat/list");
-        
+
     }
 
 }
-

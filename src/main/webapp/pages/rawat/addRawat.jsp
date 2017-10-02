@@ -20,7 +20,7 @@
                 <label for="rawatPasien">Pilih Pasien</label>
                 <select name="rawatPasien" id="rawatPasien">
                     <c:forEach items="${listPasien}" var="p">
-                    <option value="${p.id}">${p.nama}</option>
+                        <option value="${p.id}">${p.nama}</option>
                     </c:forEach>
                 </select>
             </div>
@@ -32,25 +32,17 @@
                     </c:forEach>
                 </select>
             </div>
-                <label for="rawatRuang">Pilih Ruang</label>
-                <select name="rawatRuang" id="rawatRuang">
-                    <c:forEach items="${listRuang}" var="r">
-                        <option value="${r.id}">${r.no_ruangan}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div>
-                <label for="rawatRegister">Waktu Register</label>
-                <input type="timestamp" name="rawatRegister" id="rawatRegister">
-            </div>
-            <div>
-                <label for="rawatCheckout">Waktu Checkout</label>
-                <input type="timestamp" name="rawatCheckout" id="rawatCheckout">
-            </div>
-            <div>
-                <button type="submit">Kirim</button>
-                <button type="reset">Reset</button>
-            </div>
-        </form>
-    </body>
+            <label for="rawatRuang">Pilih Ruang</label>
+            <select name="rawatRuang" id="rawatRuang">
+                <c:forEach items="${listRuang}" var="r">
+                    <option value="${r.id}">${r.no_ruangan}</option>
+                </c:forEach>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Kirim</button>
+            <button type="reset">Reset</button>
+        </div>
+    </form>
+</body>
 </html>

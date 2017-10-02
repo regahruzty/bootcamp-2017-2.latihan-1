@@ -17,7 +17,7 @@
         <!--${pageContext.servletContext.contextPath}-->
         <form action="${pageContext.servletContext.contextPath}/rawat/update" method="post">
             
-            <input type ="hidden" name="rawatId" value="${rwt.id}" id="rawatId">
+            <input type ="hidden" name="id" value="${rwt.id}">
             <div>
                 <label for="rawatPasien">Pilih Pasien</label>
                 <select name="rawatPasien" id="rawatPasien">

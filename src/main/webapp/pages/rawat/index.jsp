@@ -14,6 +14,8 @@
     </head>
     <body>
         <h1>Daftar Rawat</h1>
+        <a href="${pageContext.servletContext.contextPath}/rawat/new" class="btn btn-primary">Tambah</a>
+        &nbsp;
         <table border="1">
             <thead>
                 <tr>
@@ -27,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-            <c:forEach items="${listRawat}" var="rwt" varstatus="index">
+            <c:forEach items="${listRawat}" var="rwt">
                 <tr>
                     <td>${rwt.id}</td>
                     <td>${rwt.pasienId.nama}</td>
@@ -40,7 +42,8 @@
                     </td>    
                     &nbsp;
                     <td>
-                     <form action="${pageContext.servletContext.contextPath}/rawat/delete" method="post">
+                     <form action="${pageContext.servletContext.contextPath}/rawat/delete?id=${rwt.id}" method="post">
+                     <input type="hidden" name="rawatId" value="${rwt.id}">    
                          <button type="submit">Hapus</button>
                     </td>
                 </tr>

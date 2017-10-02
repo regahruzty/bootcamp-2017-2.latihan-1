@@ -27,13 +27,14 @@ import java.util.logging.Logger;
  */
 public class RuangDao {
 
-    public List<Ruang> semuaDataRuang() {
+    public List<Ruang> semuaDataRuang(Boolean statusKamarIsi) {
         List<Ruang> listRuang = new ArrayList<>();
         try {
             Connection koneksiDB = KonfigDB.getDataSource().getConnection();
-            String sql = "select id, no_ruangan, kosong from latihan_1.ruang order by id";
-            Statement s = koneksiDB.createStatement();
-            ResultSet r = s.executeQuery(sql);
+            String sql = "select id, no_ruangan, kosong from latihan_1.ruang where kosong = ?";
+            PreparedStatement s = koneksiDB.prepareStatement(sql);
+            s.setBoolean(1, statusKamarIsi);
+            ResultSet r = s.executeQuery();
             while (r.next()) {
                 Ruang ruang = new Ruang();
                 ruang.setId(r.getInt("id"));

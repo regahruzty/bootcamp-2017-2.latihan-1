@@ -30,7 +30,7 @@ public class RuangListController extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RuangDao ruangDao = new RuangDao();
-        List<Ruang> dataRuang = ruangDao.semuaDataRuang();
+        List<Ruang> dataRuang = ruangDao.semuaDataRuang(Boolean.TRUE);
         
         req.setAttribute("listRuang", dataRuang); 
         req.getRequestDispatcher("/pages/ruang/index.jsp").forward(req, resp);

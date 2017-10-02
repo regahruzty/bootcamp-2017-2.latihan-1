@@ -5,11 +5,18 @@
  */
 package com.tabeldata.controller;
 
+import com.tabeldata.Dokter;
+import com.tabeldata.Pasien;
 import com.tabeldata.Rawat;
 import com.tabeldata.Ruang;
+import com.tabeldata.dao.DokterDao;
+import com.tabeldata.dao.PasienDao;
 import com.tabeldata.dao.RawatDao;
+import com.tabeldata.dao.RuangDao;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,12 +33,21 @@ public class RawatUpdateController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        super.doGet(req, resp); //To change body of generated methods, choose Tools | Templates.
+        String kodeRawat = req.getParameter("id");
         Rawat rawat = new Rawat();
-        rawat.setId(Integer.valueOf(req.getParameter("id")));
-
+        PasienDao pasienDao = new PasienDao();
+        DokterDao dokterDao = new DokterDao();
+        RuangDao ruangDao = new RuangDao();
         RawatDao rawatDao = new RawatDao();
-        rawat = rawatDao.cariRawatDenganId(rawat.getId());
 
+        List<Pasien> listPasien = pasienDao.semuaDataPasien();
+        List<Dokter> listDokter = dokterDao.semuaDataDokter();
+        List<Ruang> listRuang = ruangDao.semuaDataRuang(false);
+        rawat = rawatDao.cariRawatDenganId(Integer.valueOf(kodeRawat));
+
+        req.setAttribute("listPasien", listPasien);
+        req.setAttribute("listDokter", listDokter);
+        req.setAttribute("listRuang", listRuang);
         req.setAttribute("rwt", rawat);
         req.getRequestDispatcher("/pages/rawat/updateRawat.jsp").forward(req, resp);
     }
@@ -41,20 +57,30 @@ public class RawatUpdateController extends HttpServlet {
 //        super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
 
         Rawat rawatBaru = new Rawat();
-        rawatBaru.setId(Integer.valueOf(req.getParameter("rawatId"))); 
-        rawatBaru.setWaktuRegister(Timestamp.valueOf(req.getParameter("rawatRegister")));
-        rawatBaru.setWaktuCheckout(Timestamp.valueOf(req.getParameter("rawatCheckout")));
-        
+        String rawatId = req.getParameter("kode");
+        rawatBaru.setId(Integer.valueOf(rawatId));
+
+        String rawatPasien = req.getParameter("rawatPasien");
+        Pasien pasien = new Pasien();
+        pasien.setId(Integer.valueOf(rawatPasien));
+        rawatBaru.setPasienId(pasien);
+
+        String rawatDokter = req.getParameter("rawatDokter");
+        Dokter dokter = new Dokter();
+        dokter.setId(Integer.valueOf(rawatDokter));
+        rawatBaru.setDokterId(dokter);
+
+        String rawatRuang = req.getParameter("rawatRuang");
         Ruang ruang = new Ruang();
-        ruang.setId(Integer.valueOf(req.getParameter("ruangId")));
-        ruang.setNo_ruangan(req.getParameter("ruangNo_ruangan"));
-        ruang.setKosong(Boolean.valueOf(req.getParameter("ruangKosong")));
+        ruang.setId(Integer.valueOf(rawatRuang));
         rawatBaru.setRuangId(ruang);
-       
-        
+
+        rawatBaru.setWaktuRegister(Timestamp.valueOf(LocalDateTime.now()));
+        rawatBaru.setWaktuCheckout(Timestamp.valueOf(LocalDateTime.now()));
+
         RawatDao rawatDao = new RawatDao();
-        rawatDao.update(rawatBaru);
-        
-        resp.sendRedirect(req.getServletContext().getContextPath() + "/ruang/list");
+        rawatDao.update(rawatBaru.getId(), rawatBaru.getPasienId().getId(), rawatBaru.getDokterId().getId(), rawatBaru.getRuangId().getId(), rawatBaru.getWaktuRegister(), rawatBaru.getWaktuCheckout());
+
+        resp.sendRedirect(req.getServletContext().getContextPath() + "/rawat/list");
     }
 }
