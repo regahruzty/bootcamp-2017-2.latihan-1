@@ -30,24 +30,24 @@ public class RawatDao {
     public List<Rawat> semuaDataRawat() {
         List<Rawat> listRawat = new ArrayList<>();
 
-        String sql = "Select\n" + 
-                "rwt.id as id_rawat,\n" + 
-                "rwt.waktu_register as waktu_register,\n" +
-                "rwt.waktu_checkout as waktu_checkout,\n" + 
-                "pasien.id as id_pasien,\n" + 
-                "pasien.nama as nama_pasien,\n" + 
-                "pasien.alamat as alamat_pasien,\n" + 
-                "pasien.tanggal_lahir as tanggal_lahir_pasien,\n" + 
-                "dokter.id as id_dokter,\n" + 
-                "dokter.nama as nama_dokter,\n" + 
-                "dokter.spesialis as spesialis_dokter,\n" + 
-                "ruang.id as id_ruang,\n" + 
-                "ruang.no_ruangan as no_ruangan_ruang,\n" + 
-                "ruang.kosong as kosong_ruang\n" + 
-                "from latihan_1.rawat rwt\n" + 
-                "join latihan_1.pasien pasien on (rwt.pasien_id = pasien.id)\n" +
-                "join latihan_1.dokter dokter on (rwt.dokter_id = dokter.id)\n" +
-                "join latihan_1.ruang ruang on (rwt.ruang_id = ruang.id)";
+        String sql = "Select\n"
+                + "rwt.id as id_rawat,\n"
+                + "rwt.waktu_register as waktu_register,\n"
+                + "rwt.waktu_checkout as waktu_checkout,\n"
+                + "pasien.id as id_pasien,\n"
+                + "pasien.nama as nama_pasien,\n"
+                + "pasien.alamat as alamat_pasien,\n"
+                + "pasien.tanggal_lahir as tanggal_lahir_pasien,\n"
+                + "dokter.id as id_dokter,\n"
+                + "dokter.nama as nama_dokter,\n"
+                + "dokter.spesialis as spesialis_dokter,\n"
+                + "ruang.id as id_ruang,\n"
+                + "ruang.no_ruangan as no_ruangan_ruang,\n"
+                + "ruang.kosong as kosong_ruang\n"
+                + "from latihan_1.rawat rwt\n"
+                + "join latihan_1.pasien pasien on (rwt.pasien_id = pasien.id)\n"
+                + "join latihan_1.dokter dokter on (rwt.dokter_id = dokter.id)\n"
+                + "join latihan_1.ruang ruang on (rwt.ruang_id = ruang.id)";
 
         try {
             Connection connection = KonfigDB.getDataSource().getConnection();
@@ -98,24 +98,24 @@ public class RawatDao {
 
         String sql = "insert into latihan_1.rawat (pasien_id, dokter_id, ruang_id, waktu_register, waktu_checkout)"
                 + "values (?, ?, ?, ?, ?)";
-        
-            Connection connection = KonfigDB.getDataSource().getConnection();
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, rwt.getPasienId().getId());
-            ps.setInt(2, rwt.getDokterId().getId());
-            ps.setInt(3, rwt.getRuangId().getId());
-            ps.setTimestamp(4, rwt.getWaktuRegister());
-            ps.setTimestamp(5, rwt.getWaktuCheckout());
-            ps.executeUpdate();
-            
-            sql = "update latihan_1.ruang set kosong = FALSE WHERE id = ?";
-            ps = connection.prepareStatement(sql);
-            ps.setInt(1, rwt.getRuangId().getId());
-            ps.executeUpdate();
-            ps.close();
-            connection.close();
 
-        } 
+        Connection connection = KonfigDB.getDataSource().getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, rwt.getPasienId().getId());
+        ps.setInt(2, rwt.getDokterId().getId());
+        ps.setInt(3, rwt.getRuangId().getId());
+        ps.setTimestamp(4, rwt.getWaktuRegister());
+        ps.setTimestamp(5, rwt.getWaktuCheckout());
+        ps.executeUpdate();
+
+        sql = "update latihan_1.ruang set kosong = FALSE WHERE id = ?";
+        ps = connection.prepareStatement(sql);
+        ps.setInt(1, rwt.getRuangId().getId());
+        ps.executeUpdate();
+        ps.close();
+        connection.close();
+
+    }
 
     public Rawat cariRawatDenganId(Integer id) {
         try {
@@ -163,7 +163,17 @@ public class RawatDao {
             ps.setTimestamp(5, waktuCheckout);
             ps.setInt(6, id);
             ps.executeUpdate();
-
+            
+            sql = "update latihan_1.ruang set kosong = FALSE WHERE id = ?";
+            ps = koneksiDB.prepareStatement(sql);
+            ps.setInt(1, ruangId);
+            ps.executeUpdate();
+            
+            sql = "update latihan_1.ruang set kosong = true WHERE kosong = false";
+            ps = koneksiDB.prepareStatement(sql);
+            ps.setInt(1, ruangId);
+            ps.executeUpdate();
+            
             ps.close();
             koneksiDB.close();
 
@@ -181,7 +191,7 @@ public class RawatDao {
             PreparedStatement ps = conection.prepareStatement(sql);
             ps.setInt(1, rwt.getId());
             ps.executeUpdate();
-            
+
             sql = "update latihan_1.ruang set kosong = true WHERE id = ?";
             ps = conection.prepareStatement(sql);
             System.out.println(rwt.getRuangId().getId());

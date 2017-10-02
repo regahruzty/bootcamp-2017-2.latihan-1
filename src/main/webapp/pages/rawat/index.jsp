@@ -34,7 +34,7 @@
                     <td>${rwt.id}</td>
                     <td>${rwt.pasienId.nama}</td>
                     <td>${rwt.dokterId.nama}</td>
-                    <td>${rwt.ruangId.kosong}</td>
+                    <td>${rwt.ruangId.no_ruangan}</td>
                     <td>${rwt.waktuRegister}</td>
                     <td>${rwt.waktuCheckout}</td>
                     <td>

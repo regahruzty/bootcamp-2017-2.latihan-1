@@ -42,7 +42,7 @@ public class RawatUpdateController extends HttpServlet {
 
         List<Pasien> listPasien = pasienDao.semuaDataPasien();
         List<Dokter> listDokter = dokterDao.semuaDataDokter();
-        List<Ruang> listRuang = ruangDao.semuaDataRuang(false);
+        List<Ruang> listRuang = ruangDao.semuaDataRuang(Boolean.TRUE);
         rawat = rawatDao.cariRawatDenganId(Integer.valueOf(kodeRawat));
 
         req.setAttribute("listPasien", listPasien);
